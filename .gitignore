@@ -16,6 +16,3 @@ functions/node_modules/
 firebase-debug.log
 firestore-debug.log
 
-# Plateformes
-android/app/google-services.json
-ios/Runner/GoogleService-Info.plist
