@@ -1,0 +1,30 @@
+name: edushare
+description: Plateforme collaborative de partage de connaissances académiques (étudiants, enseignants, universités partenaires).
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+  flutter: '>=3.35.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cloud_firestore: ^5.4.4
+  firebase_auth: ^5.3.1
+  firebase_core: ^3.6.0
+  firebase_messaging: ^15.1.3
+  fl_chart: ^0.69.0
+  flutter_riverpod: ^2.6.1
+  go_router: ^14.3.0
+  intl: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
