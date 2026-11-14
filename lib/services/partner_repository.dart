@@ -5,8 +5,12 @@ import '../core/providers.dart';
 import '../models/app_user.dart';
 import '../models/partner.dart';
 
-final partnerRepositoryProvider =
-    Provider<PartnerRepository>((ref) => PartnerRepository(ref.watch(firestoreProvider)));
+/// Dépend de l'utilisateur connecté : les flux Firestore sont recréés à chaque
+/// connexion/déconnexion (sinon une erreur permission-denied reste en cache).
+final partnerRepositoryProvider = Provider<PartnerRepository>((ref) {
+  ref.watch(currentUidProvider);
+  return PartnerRepository(ref.watch(firestoreProvider));
+});
 
 final partnersProvider = StreamProvider<List<Partner>>(
   (ref) => ref.watch(partnerRepositoryProvider).watchPartners(),

@@ -4,8 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/providers.dart';
 import '../models/app_user.dart';
 
-final userRepositoryProvider =
-    Provider<UserRepository>((ref) => UserRepository(ref.watch(firestoreProvider)));
+/// Dépend de l'utilisateur connecté : les flux Firestore sont recréés à chaque
+/// connexion/déconnexion (sinon une erreur permission-denied reste en cache).
+final userRepositoryProvider = Provider<UserRepository>((ref) {
+  ref.watch(currentUidProvider);
+  return UserRepository(ref.watch(firestoreProvider));
+});
 
 final userProvider = StreamProvider.family<AppUser?, String>(
   (ref, uid) => ref.watch(userRepositoryProvider).watchUser(uid),

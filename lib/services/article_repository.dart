@@ -5,8 +5,12 @@ import '../core/providers.dart';
 import '../models/app_user.dart';
 import '../models/article.dart';
 
-final articleRepositoryProvider =
-    Provider<ArticleRepository>((ref) => ArticleRepository(ref.watch(firestoreProvider)));
+/// Dépend de l'utilisateur connecté : les flux Firestore sont recréés à chaque
+/// connexion/déconnexion (sinon une erreur permission-denied reste en cache).
+final articleRepositoryProvider = Provider<ArticleRepository>((ref) {
+  ref.watch(currentUidProvider);
+  return ArticleRepository(ref.watch(firestoreProvider));
+});
 
 /// Fil des publications, filtré par catégorie (null = toutes).
 final articlesProvider = StreamProvider.family<List<Article>, ArticleCategory?>(

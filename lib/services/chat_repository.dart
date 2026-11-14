@@ -5,8 +5,12 @@ import '../core/providers.dart';
 import '../models/app_user.dart';
 import '../models/chat.dart';
 
-final chatRepositoryProvider =
-    Provider<ChatRepository>((ref) => ChatRepository(ref.watch(firestoreProvider)));
+/// Dépend de l'utilisateur connecté : les flux Firestore sont recréés à chaque
+/// connexion/déconnexion (sinon une erreur permission-denied reste en cache).
+final chatRepositoryProvider = Provider<ChatRepository>((ref) {
+  ref.watch(currentUidProvider);
+  return ChatRepository(ref.watch(firestoreProvider));
+});
 
 final conversationsProvider = StreamProvider<List<Conversation>>((ref) {
   final uid = ref.watch(currentUidProvider);
